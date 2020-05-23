@@ -8,7 +8,7 @@ public class Bird extends GameObject
     private double velocity;
     private double gravity;
     private double upForce;
-    private final int DIAMETER = 20;
+    protected static final int DIAMETER = 20;
 
     public Bird()
     {
@@ -20,13 +20,15 @@ public class Bird extends GameObject
         upForce = -(gravity * 25);
     }
 
-    private void draw(Graphics2D g)
+    @Override
+    protected void draw(Graphics2D g)
     {
         g.setPaint(Color.WHITE);
         Ellipse2D bird = new Ellipse2D.Double(x, y, DIAMETER, DIAMETER);
         g.fill(bird);
     }
 
+    @Override
     public void updatePos(Graphics2D g)
     {
         draw(g);
@@ -43,5 +45,15 @@ public class Bird extends GameObject
     public void flap()
     {
         velocity += upForce;
+    }
+
+    protected double getX()
+    {
+        return x;
+    }
+
+    protected double getY()
+    {
+        return y;
     }
 }

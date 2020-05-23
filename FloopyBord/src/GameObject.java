@@ -10,4 +10,9 @@ public abstract class GameObject
         WIDTH = s.width;
         HEIGHT = s.height;
     }
+
+    protected abstract void draw(Graphics2D g2d);
+
+    protected abstract void updatePos(Graphics2D g2d);
+
 }
