@@ -1,7 +1,12 @@
+package GameObject;
+
+import Entity.IBird;
+import Entity.GameObject;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Bird extends GameObject
+public class FlopIBird extends GameObject implements IBird
 {
     private double x;
     private double y;
@@ -10,9 +15,9 @@ public class Bird extends GameObject
     private double upForce;
     protected static final int DIAMETER = 20;
 
-    public Bird()
+    public FlopIBird()
     {
-        isInit();
+        super.isInit();
         x = 25;
         y = HEIGHT / 2;
         velocity = 0;
@@ -42,17 +47,20 @@ public class Bird extends GameObject
         }
     }
 
+    @Override
     public void flap()
     {
         velocity += upForce;
     }
 
-    protected double getX()
+    @Override
+    public double getX()
     {
         return x;
     }
 
-    protected double getY()
+    @Override
+    public double getY()
     {
         return y;
     }

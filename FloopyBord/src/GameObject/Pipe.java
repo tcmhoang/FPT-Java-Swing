@@ -1,8 +1,14 @@
+package GameObject;
+
+import Entity.GameObject;
+import Entity.IBird;
+import Entity.IPipe;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Pipe extends GameObject
+public class Pipe extends GameObject implements IPipe
 {
     private double x;
     private short top;
@@ -13,7 +19,7 @@ public class Pipe extends GameObject
     public Pipe()
     {
         x = WIDTH;
-        short span = (short) ThreadLocalRandom.current().nextInt(Bird.DIAMETER * 4, (int) (WIDTH / 2));
+        short span = (short) ThreadLocalRandom.current().nextInt(FlopIBird.DIAMETER * 4, (int) (WIDTH / 2));
         short centery = (short) ThreadLocalRandom.current().nextInt(span, (int) (WIDTH - span));
         top = (short) (centery - span / 2);
         bottom = (short) (centery + span / 2);
@@ -33,22 +39,24 @@ public class Pipe extends GameObject
     }
 
     @Override
-    protected void updatePos(Graphics2D g2d)
+    public void updatePos(Graphics2D g2d)
     {
         draw(g2d);
         x -= velocity;
 
     }
 
+    @Override
     public boolean isOffScreen()
     {
         return x < -w;
     }
 
-    public boolean hits(Bird bird)
+    @Override
+    public boolean hits(IBird flopBird)
     {
-        double xB = bird.getX();
-        double yB = bird.getY();
+        double xB = flopBird.getX();
+        double yB = flopBird.getY();
         if (yB < top || yB > bottom)
         {
             if (xB >= x && xB <= x + w)
