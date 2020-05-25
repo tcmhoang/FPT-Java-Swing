@@ -20,7 +20,7 @@ public class Game
         Dimension tmp = gameFrame.getSize();
         int w = tmp.width - gameFrame.getInsets().right - gameFrame.getInsets().left;
         int h = tmp.height - gameFrame.getInsets().top - gameFrame.getInsets().bottom;
-        Utils.Canvas canvas;
+        Canvas canvas;
         gameFrame.add(canvas = new Canvas(new Dimension(w, h)));
         gameFrame.addKeyListener(canvas);
     }

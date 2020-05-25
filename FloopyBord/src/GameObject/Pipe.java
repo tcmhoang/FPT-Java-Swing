@@ -15,11 +15,12 @@ public class Pipe extends GameObject implements IPipe
     private short bottom;
     private byte w;
     private int velocity;
+    private boolean isPassed;
 
     public Pipe()
     {
         x = WIDTH;
-        short span = (short) ThreadLocalRandom.current().nextInt(FlopIBird.DIAMETER * 4, (int) (WIDTH / 2));
+        short span = (short) ThreadLocalRandom.current().nextInt(FlopBird.DIAMETER * 4, (int) (WIDTH / 2));
         short centery = (short) ThreadLocalRandom.current().nextInt(span, (int) (WIDTH - span));
         top = (short) (centery - span / 2);
         bottom = (short) (centery + span / 2);
@@ -43,7 +44,6 @@ public class Pipe extends GameObject implements IPipe
     {
         draw(g2d);
         x -= velocity;
-
     }
 
     @Override
@@ -57,12 +57,12 @@ public class Pipe extends GameObject implements IPipe
     {
         double xB = flopBird.getX();
         double yB = flopBird.getY();
-        if (yB < top || yB > bottom)
-        {
-            if (xB >= x && xB <= x + w)
-                return true;
-        }
+        return (yB < top || yB > bottom) && xB >= x && xB <= x + w;
+    }
 
-        return false;
+    @Override
+    public boolean pass(IBird bird)
+    {
+        return x < bird.getX() + w;
     }
 }
