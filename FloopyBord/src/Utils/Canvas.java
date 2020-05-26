@@ -8,35 +8,60 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.LinkedList;
 import java.util.TimerTask;
 import java.util.stream.IntStream;
 
-public class Canvas extends JPanel implements ActionListener, KeyListener
+public class Canvas extends JPanel implements ActionListener
 {
     private Timer timer;
     private java.util.Timer genPipes;
     private FlopBird flopBird;
     private java.util.List<Pipe> pipes;
     private short score;
+    private JFrame gameFrame;
+    private final Dimension CANVAS_SIZE, FRAME_SIZE;
+    private Control console;
 
 
-    public Canvas(Dimension s)
+    public Canvas(int w, int h)
     {
-        setSize(s);
-        GameObject.setSize(s);
+        FRAME_SIZE = new Dimension(w, h);
+        CANVAS_SIZE = createGameFrame(w, h);
+        setSize(CANVAS_SIZE);
+        GameObject.setSize(CANVAS_SIZE);
         __init__();
     }
 
+    private Dimension createGameFrame(int w, int h)
+    {
+        gameFrame = new JFrame("Nah");
+        gameFrame.setLayout(null);
+        gameFrame.setSize(w, h);
+        gameFrame.setResizable(false);
+
+
+        gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        gameFrame.setVisible(true);
+        gameFrame.setFocusable(true);
+
+        return new Dimension(w - gameFrame.getInsets().right - gameFrame.getInsets().left
+                , h - gameFrame.getInsets().top - gameFrame.getInsets().bottom);
+    }
+
+
     private void __init__()
     {
+        gameFrame.add(this);
+
         score = 0;
         setBackground(Color.BLACK);
         setOpaque(true);
 
         flopBird = new FlopBird();
+        console = new Control(flopBird);
+        gameFrame.addKeyListener( console);
+
         pipes = new LinkedList();
         pipes.add(new Pipe());
         genPipes = new java.util.Timer(true);
@@ -53,7 +78,7 @@ public class Canvas extends JPanel implements ActionListener, KeyListener
         setFocusTraversalKeysEnabled(false);
         requestFocus();
 
-        addKeyListener(this);
+        addKeyListener(console);
         setVisible(true);
         timer = new Timer(10, this);
         timer.start();
@@ -78,50 +103,47 @@ public class Canvas extends JPanel implements ActionListener, KeyListener
             if (tmp.hits(flopBird)) gameOver();
         });
 
-        g2d.drawString(String.valueOf(score),getWidth()-20,getHeight());
+        g2d.drawString(String.valueOf(score), getWidth() - 20, getHeight());
     }
 
     private void gameOver()
     {
+        gameFrame.dispose();
+
         Object[] options = {"Yes, please",
                 "No, thanks. I am birded enough"};
 
         int n = JOptionPane.showOptionDialog(this,
-                "Your Final Score is " + score ,
+                "Your Final Score is " + score,
                 "A Silly Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
                 options[1]);
-        //TODO: close windows and start other session
-        if (n == 0) {
+
+        if (n == 0)
+        {
+            //Reset all value
+            gameFrame = null;
+
+            createGameFrame(FRAME_SIZE.width, FRAME_SIZE.height);
+            setSize(CANVAS_SIZE);
+
+            //If not stop, they will continue running (Daemon Mode)
+            //Although no pointer point to them
+            timer.stop();
+            genPipes.cancel();
+
             __init__();
         }
+        else System.exit(0);
     }
 
-    @Override
-    public void keyPressed(KeyEvent e)
-    {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) flopBird.flap();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
         repaint();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-
-    }
-
-
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-
     }
 }
