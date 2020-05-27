@@ -5,11 +5,11 @@ import Entity.IBird;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class Control extends KeyAdapter
+public class Controller extends KeyAdapter
 {
     private IBird bird;
 
-    public Control(IBird bird)
+    public Controller(IBird bird)
     {
         this.bird = bird;
     }

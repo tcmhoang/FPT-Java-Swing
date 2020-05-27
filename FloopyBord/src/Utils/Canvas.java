@@ -21,7 +21,7 @@ public class Canvas extends JPanel implements ActionListener
     private short score;
     private JFrame gameFrame;
     private final Dimension CANVAS_SIZE, FRAME_SIZE;
-    private Control console;
+    private Controller console;
 
 
     public Canvas(int w, int h)
@@ -59,7 +59,7 @@ public class Canvas extends JPanel implements ActionListener
         setOpaque(true);
 
         flopBird = new FlopBird();
-        console = new Control(flopBird);
+        console = new Controller(flopBird);
         gameFrame.addKeyListener( console);
 
         pipes = new LinkedList();

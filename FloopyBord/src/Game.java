@@ -14,6 +14,8 @@ public class Game
         {
             e.printStackTrace();
         }
-        var Canvas = new Canvas(500,500);
+
+        Canvas tmp = new Canvas(500,500);
+         
     }
 }
