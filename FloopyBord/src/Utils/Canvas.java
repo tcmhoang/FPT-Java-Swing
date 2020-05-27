@@ -137,7 +137,7 @@ public class Canvas extends JPanel implements ActionListener
 
             __init__();
         }
-        else System.exit(0);
+        else System.exit(0); 
     }
 
 

@@ -20,8 +20,8 @@ public class Pipe extends GameObject implements IPipe
     public Pipe()
     {
         x = WIDTH;
-        short span = (short) ThreadLocalRandom.current().nextInt(FlopBird.DIAMETER * 4, (int) (WIDTH / 2));
-        short centery = (short) ThreadLocalRandom.current().nextInt(span, (int) (WIDTH - span));
+        short span = (short) ThreadLocalRandom.current().nextInt(FlopBird.DIAMETER * 4, (int) (HEIGHT / 2));
+        short centery = (short) ThreadLocalRandom.current().nextInt(span, (int) (HEIGHT - span));
         top = (short) (centery - span / 2);
         bottom = (short) (centery + span / 2);
         w = 30;
