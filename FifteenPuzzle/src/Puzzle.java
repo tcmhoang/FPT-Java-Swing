@@ -2,47 +2,66 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-public class Puzzle extends JPanel implements ActionListener, IPuzzle
+public class Puzzle extends JPanel implements IPuzzle
 {
     private Tile[][] tiles;
     private Tile emptySlot;
+    private Dimension dimension;
+    private int moveCounter;
+    private boolean gameOver;
+    private boolean isPlayerTurn;
 
     public Puzzle(Dimension x)
     {
-        setLayout(new GridLayout(x.width, x.height, 10, 10));
+        dimension = x;
         setSize(500, 500);
-        setVisible(true);
-        createPuzzle(x);
+        createPuzzle();
     }
 
     @Override
-    public void createPuzzle(Dimension x)
+    public void setDimension(Dimension x)
     {
-        tiles = new Tile[x.width][x.height];
-        createSolution(x);
-        emptySlot = tiles[x.width - 1][x.height - 1];
-        scramble();
+        dimension = x;
     }
 
-    private void createSolution(Dimension x)
+    @Override
+    public void createPuzzle()
     {
-        for (byte i = 0; i < x.width; i++)
-        {
-            for (byte j = 0; j < x.height; j++)
+        setLayout(new GridLayout(dimension.width, dimension.height, 10, 10));
+        tiles = new Tile[dimension.width][dimension.height];
+        createSolution();
+        emptySlot = tiles[dimension.width - 1][dimension.height - 1];
+        scramble();
+        moveCounter = 0;
+        gameOver = false;
+        isPlayerTurn =true;
+    }
+
+    @Override
+    public void reset()
+    {
+        Tile.resetVal();
+        removeAll();
+        revalidate();
+        repaint();
+    }
+
+    private void createSolution()
+    {
+        for (byte i = 0; i < dimension.width; i++)
+            for (byte j = 0; j < dimension.height; j++)
             {
                 Tile cell = new Tile(i, j);
-                cell.setSize(20, 20);
+                cell.setSize(500/tiles.length, 500/tiles.length);
                 cell.addActionListener(this);
                 tiles[i][j] = cell;
                 add(cell);
             }
-        }
-        tiles[x.width - 1][x.height - 1].setText("empty");
+        tiles[dimension.width - 1][dimension.height - 1].setText("empty");
     }
 
     private void shiftTile(Tile tile)
@@ -54,20 +73,25 @@ public class Puzzle extends JPanel implements ActionListener, IPuzzle
             if (emptyCell != null)
             {
                 tile.changeState(emptyCell);
+                moveCounter++;
                 emptySlot = tile;
                 checkTilesOrder();
             }
         }
     }
 
-    private void checkTilesOrder()
+    @Override
+    public boolean checkTilesOrder()
     {
+        if(!isPlayerTurn) return false;
         List<String> tmp;
         if (!tiles[tiles.length - 1][tiles[0].length - 1].getText().equals("empty"))
-            return;
+            return false;
         if ((tmp = Arrays.stream(tiles).flatMap(Arrays::stream).map(AbstractButton::getText).collect(Collectors.toCollection(LinkedList::new)))
                 .stream().sorted().collect(Collectors.toList()).equals(tmp))
         {
+            gameOver = true;
+
             Object[] options = {"Yes, please",
                     "No, thanks"};
 
@@ -79,14 +103,24 @@ public class Puzzle extends JPanel implements ActionListener, IPuzzle
                     null,
                     options,
                     options[1]);
-            if (n == 0) scramble();
+
+            if (n == 0)
+            {
+                scramble();
+                gameOver = false;
+                return false;
+            }
+            return true;
         }
+        return false;
     }
 
 
     private void scramble()
     {
+        isPlayerTurn = false;
         shuffler(100, null);
+        moveCounter = 0;
     }
 
     private void shuffler(int times, Tile cell)
@@ -128,18 +162,15 @@ public class Puzzle extends JPanel implements ActionListener, IPuzzle
     {
         if (e.getSource() instanceof Tile)
         {
-            shiftTile((Tile) e.getSource());
+            if (!gameOver)
+            {
+                shiftTile((Tile) e.getSource());
+            }
         }
     }
 
-    public static void main(String[] args)
+    public int getMoveCounter()
     {
-        JFrame test = new JFrame();
-        test.setLayout(new BorderLayout());
-        test.setSize(600, 600);
-        test.add(new Puzzle(new Dimension(3, 3)),BorderLayout.CENTER);
-        test.setVisible(true);
-        test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        return moveCounter;
     }
-
 }
