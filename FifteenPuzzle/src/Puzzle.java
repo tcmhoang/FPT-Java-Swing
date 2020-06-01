@@ -14,13 +14,15 @@ public class Puzzle extends JPanel implements IPuzzle
     private int moveCounter;
     private boolean gameOver;
     private boolean isPlayerTurn;
+    private ControlPanel controlPanel;
 
     public Puzzle(Dimension x)
     {
         dimension = x;
         setSize(500, 500);
-//        createPuzzle();
+
     }
+
 
     @Override
     public void setDimension(Dimension x)
@@ -36,6 +38,11 @@ public class Puzzle extends JPanel implements IPuzzle
         createSolution();
         emptySlot = tiles[dimension.width - 1][dimension.height - 1];
         scramble();
+        resetAfterScramble();
+    }
+
+    private void resetAfterScramble()
+    {
         moveCounter = 0;
         gameOver = false;
         isPlayerTurn =true;
@@ -44,10 +51,18 @@ public class Puzzle extends JPanel implements IPuzzle
     @Override
     public void reset()
     {
+        moveCounter = 0;
+        controlPanel.updateMove(getMoveCounter());
         Tile.resetVal();
         removeAll();
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void setControlPanel(ControlPanel panel )
+    {
+     controlPanel = panel;
     }
 
     private void createSolution()
@@ -75,7 +90,6 @@ public class Puzzle extends JPanel implements IPuzzle
                 tile.changeState(emptyCell);
                 moveCounter++;
                 emptySlot = tile;
-                checkTilesOrder();
             }
         }
     }
@@ -92,6 +106,8 @@ public class Puzzle extends JPanel implements IPuzzle
         {
             gameOver = true;
 
+            controlPanel.stopStopWatch();
+
             Object[] options = {"Yes, please",
                     "No, thanks"};
 
@@ -107,10 +123,13 @@ public class Puzzle extends JPanel implements IPuzzle
             if (n == 0)
             {
                 scramble();
-                gameOver = false;
-                return;
+                resetAfterScramble();
+                controlPanel.resetElapsedSecs();
+                controlPanel.updateMove(0);
+
+                controlPanel.stopStopWatch();
+                controlPanel.startRecordTime();
             }
-            ControlPanel.stopStopWatch();
         }
     }
 
@@ -118,7 +137,7 @@ public class Puzzle extends JPanel implements IPuzzle
     private void scramble()
     {
         isPlayerTurn = false;
-        shuffle(100, null);
+        shuffle(3, null);
         moveCounter = 0;
     }
 
@@ -164,7 +183,8 @@ public class Puzzle extends JPanel implements IPuzzle
             if (!gameOver)
             {
                 shiftTile((Tile) e.getSource());
-                ControlPanel.updateMove(getMoveCounter());
+                controlPanel.updateMove(getMoveCounter());
+                checkTilesOrder();
             }
         }
     }

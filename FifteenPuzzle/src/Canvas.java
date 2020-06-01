@@ -15,6 +15,7 @@ public class Canvas
         test.add((Component) (p = new Puzzle(new Dimension(3, 3))), BorderLayout.CENTER);
         ControlPanel c;
         test.add(c = new ControlPanel(p), BorderLayout.SOUTH);
+        p.setControlPanel(c);
         test.setVisible(true);
         test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         test.setLocationRelativeTo(null);

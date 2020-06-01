@@ -9,4 +9,5 @@ public interface IPuzzle extends ActionListener
     abstract int getMoveCounter();
     abstract void checkTilesOrder();
     abstract void reset();
+    abstract void setControlPanel(ControlPanel panel);
 }

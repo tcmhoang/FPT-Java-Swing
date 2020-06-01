@@ -20,6 +20,7 @@ public class ControlPanel extends JPanel
     protected IPuzzle puzzlePanel;
 
     private int sec;
+    private boolean isClickedFirstTime;
 
 
     public ControlPanel(IPuzzle puzzle)
@@ -28,6 +29,7 @@ public class ControlPanel extends JPanel
         FORMAT_MOVE_COUNT = "Move count: %d";
 
         puzzlePanel = puzzle;
+        isClickedFirstTime = true;
 
         setPreferredSize(new Dimension(100, 100));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -46,7 +48,6 @@ public class ControlPanel extends JPanel
         updateTime();
         __init__panelSelDim__();
         initNewGameBtn();
-        stopWatch = new Timer();
     }
 
     private void __add_all__()
@@ -72,17 +73,25 @@ public class ControlPanel extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 sec = 0;
+                updateTime();
                 int size = Integer.parseInt((String.valueOf(ddl_gameTileSelector.getSelectedItem())).substring(0,1));
                 puzzlePanel.reset();
                 puzzlePanel.setDimension(new Dimension(size,size));
                 puzzlePanel.createPuzzle();
+                if(!isClickedFirstTime)
+                {
+                    stopStopWatch();
+                }
                 startRecordTime();
+                isClickedFirstTime = false;
+
             }
         });
     }
 
     protected void startRecordTime()
     {
+        stopWatch = new Timer();
         stopWatch.scheduleAtFixedRate(new TimerTask()
         {
             @Override
@@ -91,11 +100,18 @@ public class ControlPanel extends JPanel
                 sec++;
                 updateTime();
             }
-        }, 0, 1000);
+        }, 1000,1000);
+    }
+
+    protected void resetElapsedSecs()
+    {
+        sec = 0;
+        updateTime();
     }
 
     protected void stopStopWatch()
     {
+        stopWatch.cancel();
         stopWatch.purge();
     }
 
