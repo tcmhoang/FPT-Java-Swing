@@ -18,7 +18,6 @@ public class Canvas
         test.setVisible(true);
         test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         test.setLocationRelativeTo(null);
-        test.addMouseListener(new MouseController(c,p));
         test.setFocusable(true);
 
     }

@@ -19,7 +19,7 @@ public class Puzzle extends JPanel implements IPuzzle
     {
         dimension = x;
         setSize(500, 500);
-        createPuzzle();
+//        createPuzzle();
     }
 
     @Override
@@ -81,12 +81,12 @@ public class Puzzle extends JPanel implements IPuzzle
     }
 
     @Override
-    public boolean checkTilesOrder()
+    public void checkTilesOrder()
     {
-        if(!isPlayerTurn) return false;
+        if(!isPlayerTurn) return ;
         List<String> tmp;
         if (!tiles[tiles.length - 1][tiles[0].length - 1].getText().equals("empty"))
-            return false;
+            return ;
         if ((tmp = Arrays.stream(tiles).flatMap(Arrays::stream).map(AbstractButton::getText).collect(Collectors.toCollection(LinkedList::new)))
                 .stream().sorted().collect(Collectors.toList()).equals(tmp))
         {
@@ -108,22 +108,21 @@ public class Puzzle extends JPanel implements IPuzzle
             {
                 scramble();
                 gameOver = false;
-                return false;
+                return;
             }
-            return true;
+            ControlPanel.stopStopWatch();
         }
-        return false;
     }
 
 
     private void scramble()
     {
         isPlayerTurn = false;
-        shuffler(100, null);
+        shuffle(100, null);
         moveCounter = 0;
     }
 
-    private void shuffler(int times, Tile cell)
+    private void shuffle(int times, Tile cell)
     {
         if (times < 0) return;
         List<Tile> tmp = getAdjacentTiles(emptySlot);
@@ -131,7 +130,7 @@ public class Puzzle extends JPanel implements IPuzzle
         Tile preCell = tmp.get(ThreadLocalRandom.current().nextInt(0, tmp.size()));
         Tile shiftedCell = emptySlot;
         shiftTile(preCell);
-        shuffler(--times, shiftedCell);
+        shuffle(--times, shiftedCell);
     }
 
     private Tile getEmptyTileFrom(Tile tile)
@@ -165,10 +164,12 @@ public class Puzzle extends JPanel implements IPuzzle
             if (!gameOver)
             {
                 shiftTile((Tile) e.getSource());
+                ControlPanel.updateMove(getMoveCounter());
             }
         }
     }
 
+    @Override
     public int getMoveCounter()
     {
         return moveCounter;

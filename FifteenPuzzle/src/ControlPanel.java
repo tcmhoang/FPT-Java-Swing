@@ -31,7 +31,7 @@ public class ControlPanel extends JPanel
 
         setPreferredSize(new Dimension(100, 100));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        createSizePanel();
+        __init__panelSelDim__();
         __init__();
         __add_all__();
     }
@@ -44,7 +44,7 @@ public class ControlPanel extends JPanel
 
         updateMove(0);
         updateTime();
-        createSizePanel();
+        __init__panelSelDim__();
         initNewGameBtn();
         stopWatch = new Timer();
     }
@@ -99,7 +99,7 @@ public class ControlPanel extends JPanel
         stopWatch.purge();
     }
 
-    private void createSizePanel()
+    private void __init__panelSelDim__()
     {
         txt_puzzleDimSelector = new JPanel(new FlowLayout());
         txt_puzzleDimSelector.setSize(getWidth(), 20);
