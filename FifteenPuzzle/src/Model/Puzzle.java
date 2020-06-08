@@ -140,6 +140,7 @@ public class Puzzle extends JPanel implements IPuzzle
     {
         if (!(isPlayerTurn || tiles[tiles.length - 1][tiles[0].length - 1].getText().equals("empty"))) return;
         List<String> tmp;
+        //TODO:Fix sort order by implement own comparator
         if ((tmp = Arrays.stream(tiles).flatMap(Arrays::stream).map(ITile::getText)
                 .collect(Collectors.toList()))
                 .stream().sorted().collect(Collectors.toList()).equals(tmp))

@@ -1,4 +1,4 @@
-package Entity.GUI;
+package Entity.View;
 
 public interface ICharInterpreter
 {
