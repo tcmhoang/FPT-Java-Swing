@@ -2,5 +2,5 @@ package Entity.View;
 
 public interface ICharInterpreter
 {
-    String getMessage();
+    String getMessage(String c);
 }

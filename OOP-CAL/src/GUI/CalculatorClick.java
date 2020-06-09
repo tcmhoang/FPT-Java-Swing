@@ -5,16 +5,20 @@ import Entity.View.ICharInterpreter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
+public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI, ActionListener
 {
     private CalcButton[] topFuncButtons;
     private CalcButton[] bottomFuncButtons;
 
     private JPanel pnl_topFunc;
     private JPanel pnl_botFunc;
+
+    private StringBuilder message;
 
     private GridBagConstraints gridLayout;
 
@@ -24,6 +28,8 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
         super(new BorderLayout());
 
         setPreferredSize(new Dimension(x.width, x.height / 6 * 5));
+
+        message = new StringBuilder();
 
         __init__buttons();
 
@@ -154,12 +160,24 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
         IntStream.range(0,12).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_OPERATOR_BUTTON));
         IntStream.range(12,bottomFuncButtons.length).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_NUMERIC_BUTTON));
 
+        //Add EventListener
+        Arrays.stream(topFuncButtons).forEach(e -> e.addActionListener(this));
+        Arrays.stream(bottomFuncButtons).forEach(e -> e.addActionListener(this));
     }
 
 
     @Override
-    public String getMessage()
+    public String getMessage(String c)
     {
-        return null;
+        return message.toString();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource() instanceof CalcButton)
+        {
+            //TODO: implement this method
+        }
     }
 }
