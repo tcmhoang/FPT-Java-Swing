@@ -3,6 +3,7 @@ package Controller;
 import Entity.Controller.ICalculatorOperator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -56,7 +57,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp = operand.pop();
         if (tmp.equals(0))
             return "0"; //ERROR return 0
-        return String.valueOf(BigDecimal.ONE.divide(tmp));
+        return String.valueOf(BigDecimal.ONE.divide(tmp,10,RoundingMode.HALF_EVEN));
     }
 
     @Override
@@ -92,7 +93,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return String.valueOf(tmp1.divide(tmp2));
+        return String.valueOf(tmp2.divide(tmp1,10,RoundingMode.HALF_EVEN));
     }
 
     @Override
