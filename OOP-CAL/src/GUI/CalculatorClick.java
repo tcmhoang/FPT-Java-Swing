@@ -1,5 +1,6 @@
 package GUI;
 
+import Entity.View.ICalcUI;
 import Entity.View.ICharInterpreter;
 
 import javax.swing.*;
@@ -7,28 +8,36 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class CalculatorClick extends JPanel implements ICharInterpreter
+public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 {
     private CalcButton[] topFuncButtons;
     private CalcButton[] bottomFuncButtons;
+
+    private JPanel pnl_topFunc;
+    private JPanel pnl_botFunc;
 
     private GridBagConstraints gridLayout;
 
 
     public CalculatorClick()
     {
-        super(new GridBagLayout());
+        super(new BorderLayout());
 
-        gridLayout = new GridBagConstraints();
-        gridLayout.fill = GridBagConstraints.HORIZONTAL;
-
-        setSize(500,500);
+        setSize(500, 500);
 
         __init__buttons();
+
+        __init__panels();
+
         __config__loc__buttons();
 
-    }
+        add(pnl_topFunc, BorderLayout.NORTH);
+        add(pnl_botFunc, BorderLayout.CENTER);
 
+        setBackground(DEFAULT_DISPLAY);
+        setForeground(DEFAULT_DISPLAY);
+        setOpaque(true);
+    }
 
     private void __init__buttons()
     {
@@ -54,62 +63,82 @@ public class CalculatorClick extends JPanel implements ICharInterpreter
 
     }
 
+    private void __init__panels()
+    {
+        pnl_topFunc = new JPanel(new GridLayout(1, 6));
+
+        Arrays.stream(topFuncButtons).forEachOrdered(b -> {
+            pnl_topFunc.add(b);
+            b.setOpaque(false);
+            b.setContentAreaFilled(false);
+            b.setBorderPainted(false);
+        });
+
+        pnl_botFunc = new JPanel(new GridBagLayout());
+
+        gridLayout = new GridBagConstraints();
+        gridLayout.fill = GridBagConstraints.BOTH;
+        gridLayout.weightx = 0.1;
+        gridLayout.weighty = 0.1;
+
+
+        //TODO: change value of dimension
+        pnl_topFunc.setSize(getWidth(), 100);
+
+    }
+
 
     private void __config__loc__buttons()
     {
-        //header (row 0)
-        gridLayout.gridwidth = 1;
+        //header
         IntStream.iterate(0, i -> i < topFuncButtons.length, i -> ++i).forEachOrdered(i ->
-        {
-            gridLayout.gridx = 5 * i; // 7 slots in row
-            gridLayout.gridy = 0; // put in all in a row
-            add(topFuncButtons[i], gridLayout);
-        });
+                pnl_topFunc.add(topFuncButtons[i]));
+
         //remain parts
-        gridLayout.gridwidth = 7;
+        Arrays.stream(bottomFuncButtons).forEach(b -> b.setSize(getWidth() / 4, getHeight() / 5));
+
         IntStream.iterate(0, i -> i < 9, i -> ++i).forEachOrdered(i ->
         {
             int alpha = i % 3; // inorder to spread all over
-            gridLayout.gridx = 7 * 2 - (7 * alpha); // 5 slots in row
-            gridLayout.gridy = i / 3 + 2; // auto break a line after 3 element put in create a space for row 1
-            System.out.println(gridLayout.gridx + " " +  gridLayout.gridy);
-            add(bottomFuncButtons[9 - i], gridLayout); //roll down number
+            gridLayout.gridx = gridLayout.gridwidth * 2 - (gridLayout.gridwidth * alpha); // 5 slots in row
+            gridLayout.gridy = i / 3 + 1; // auto break a line after 3 element put in create a space for row 1
+            pnl_botFunc.add(bottomFuncButtons[9 - i], gridLayout); //roll down number
         });
-        //After this statements
-        //we has 5 row 0 -> 4
-        //row 1 not initialized
+//        After this statements
+//        we has 5 row 0 -> 4
+//        row 1 not initialized
 
-        gridLayout.gridy = 5;
+        gridLayout.gridy = 4;
         gridLayout.gridx = 0;
-        add(bottomFuncButtons[10], gridLayout);
+        pnl_botFunc.add(bottomFuncButtons[10], gridLayout);
 
-        gridLayout.gridy = 5;
-        gridLayout.gridx = 7;
-        add(bottomFuncButtons[0], gridLayout);
+        gridLayout.gridy = 4;
+        gridLayout.gridx = 1;
+        pnl_botFunc.add(bottomFuncButtons[0], gridLayout);
 
-        gridLayout.gridy = 5;
-        gridLayout.gridx = 7 * 2;
-        add(bottomFuncButtons[11], gridLayout);
+        gridLayout.gridy = 4;
+        gridLayout.gridx = 2;
+        pnl_botFunc.add(bottomFuncButtons[11], gridLayout);
 
         //init row 1
-        gridLayout.gridy = 1;
-        gridLayout.gridx = 7 * 2;
-        add(bottomFuncButtons[bottomFuncButtons.length - 2], gridLayout);
+        gridLayout.gridy = 0;
+        gridLayout.gridx = 2;
+        pnl_botFunc.add(bottomFuncButtons[bottomFuncButtons.length - 2], gridLayout);
 
 
-        gridLayout.gridy = 1;
+        gridLayout.gridy = 0;
         gridLayout.gridx = 0;
-        gridLayout.gridwidth = 14;
-        add(bottomFuncButtons[bottomFuncButtons.length -1], gridLayout);
+        gridLayout.gridwidth = 2;
+        pnl_botFunc.add(bottomFuncButtons[bottomFuncButtons.length - 1], gridLayout);
 
-        gridLayout.gridwidth = 7; //reset default value
+        gridLayout.gridwidth = 1; //reset default value
 
-        IntStream.iterate(12,i -> i < 17, i -> ++i).forEachOrdered(i ->
+        IntStream.iterate(12, i -> i < 17, i -> ++i).forEachOrdered(i ->
         {
-            gridLayout.gridx = 7 * 3 ;
-            gridLayout.gridy = 17 - i; // populate from bottom to top
+            gridLayout.gridx = 3;
+            gridLayout.gridy = 16 - i; // populate from bottom to top
             System.out.println(bottomFuncButtons[i].getText());
-            add(bottomFuncButtons[i],gridLayout);
+            pnl_botFunc.add(bottomFuncButtons[i], gridLayout);
         });
     }
 
@@ -124,7 +153,6 @@ public class CalculatorClick extends JPanel implements ICharInterpreter
     {
         JFrame blah = new JFrame();
 
-        blah.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         blah.setLayout(null);
 //        test.setBackground(DEFAULT_DISPLAY);
 //        test.setForeground(Color.DARK_GRAY);

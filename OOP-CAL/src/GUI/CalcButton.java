@@ -1,11 +1,19 @@
 package GUI;
 
+import Entity.View.ICalcUI;
+
 import javax.swing.*;
 
-public class CalcButton extends JButton
+public class CalcButton extends JButton implements ICalcUI
 {
     public CalcButton(String mc)
     {
         super(mc);
+        setFont(DEFAULT_FONT);
+
+        setForeground(DEFAULT_DISPLAY);
+
+        setContentAreaFilled(false);
+        setOpaque(true);
     }
 }
