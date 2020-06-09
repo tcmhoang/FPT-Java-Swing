@@ -11,7 +11,7 @@ public class CalcButton extends JButton implements ICalcUI
         super(mc);
         setFont(DEFAULT_FONT);
 
-        setForeground(DEFAULT_DISPLAY);
+        setForeground(DEFAULT_BACKGROUND_DISPLAY);
 
         setContentAreaFilled(false);
         setOpaque(true);

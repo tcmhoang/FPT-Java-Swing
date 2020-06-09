@@ -19,11 +19,11 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
     private GridBagConstraints gridLayout;
 
 
-    public CalculatorClick()
+    public CalculatorClick(Dimension x)
     {
         super(new BorderLayout());
 
-        setSize(500, 500);
+        setPreferredSize(new Dimension(x.width, x.height / 6 * 5));
 
         __init__buttons();
 
@@ -31,12 +31,20 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
         __config__loc__buttons();
 
+        __add__all__and__config();
+    }
+
+    private void __add__all__and__config()
+    {
         add(pnl_topFunc, BorderLayout.NORTH);
         add(pnl_botFunc, BorderLayout.CENTER);
 
-        setBackground(DEFAULT_DISPLAY);
-        setForeground(DEFAULT_DISPLAY);
-        setOpaque(true);
+
+        pnl_topFunc.setOpaque(false);
+
+        pnl_botFunc.setOpaque(false);
+
+        setOpaque(false);
     }
 
     private void __init__buttons()
@@ -67,8 +75,11 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
     {
         pnl_topFunc = new JPanel(new GridLayout(1, 6));
 
-        Arrays.stream(topFuncButtons).forEachOrdered(b -> {
+
+        Arrays.stream(topFuncButtons).forEachOrdered(b ->
+        {
             pnl_topFunc.add(b);
+            b.setForeground(DEFAULT_BACKGROUND_OPERATOR_BUTTON);
             b.setOpaque(false);
             b.setContentAreaFilled(false);
             b.setBorderPainted(false);
@@ -76,14 +87,13 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
         pnl_botFunc = new JPanel(new GridBagLayout());
 
+
         gridLayout = new GridBagConstraints();
         gridLayout.fill = GridBagConstraints.BOTH;
         gridLayout.weightx = 0.1;
         gridLayout.weighty = 0.1;
 
 
-        //TODO: change value of dimension
-        pnl_topFunc.setSize(getWidth(), 100);
 
     }
 
@@ -95,8 +105,6 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                 pnl_topFunc.add(topFuncButtons[i]));
 
         //remain parts
-        Arrays.stream(bottomFuncButtons).forEach(b -> b.setSize(getWidth() / 4, getHeight() / 5));
-
         IntStream.iterate(0, i -> i < 9, i -> ++i).forEachOrdered(i ->
         {
             int alpha = i % 3; // inorder to spread all over
@@ -140,6 +148,12 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
             System.out.println(bottomFuncButtons[i].getText());
             pnl_botFunc.add(bottomFuncButtons[i], gridLayout);
         });
+
+        //init colors
+        //12 start at '=' character
+        IntStream.range(0,12).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_OPERATOR_BUTTON));
+        IntStream.range(12,bottomFuncButtons.length).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_NUMERIC_BUTTON));
+
     }
 
 
@@ -147,21 +161,5 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
     public String getMessage()
     {
         return null;
-    }
-
-    public static void main(String[] args)
-    {
-        JFrame blah = new JFrame();
-
-        blah.setLayout(null);
-//        test.setBackground(DEFAULT_DISPLAY);
-//        test.setForeground(Color.DARK_GRAY);
-//        CalculatorDisplay a = new CalculatorDisplay(test.getSize());
-        blah.add(new CalculatorClick());
-//        test.pack();
-        blah.pack();
-        blah.setVisible(true);
-        blah.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
     }
 }
