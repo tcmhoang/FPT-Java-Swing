@@ -1,3 +1,5 @@
+import Entity.View.ICalcDisplay;
+import Entity.View.ICharInterpreter;
 import GUI.CalculatorClick;
 import GUI.CalculatorDisplay;
 
@@ -19,11 +21,13 @@ public class Main
                 calcCanvas.setLayout(new BorderLayout());
                 calcCanvas.setSize(500,750);
 
-                calcCanvas.add(new CalculatorDisplay(calcCanvas.getSize()),BorderLayout.NORTH);
-                calcCanvas.add(new CalculatorClick(calcCanvas.getSize()),BorderLayout.CENTER);
+                ICalcDisplay tmp;
+                ICharInterpreter btnPanel;
+                calcCanvas.add((Component) (tmp = new CalculatorDisplay(calcCanvas.getSize())),BorderLayout.NORTH);
+                calcCanvas.add((Component) (btnPanel = new CalculatorClick(calcCanvas.getSize())),BorderLayout.CENTER);
+                btnPanel.setDisplay(tmp);
 
                 calcCanvas.getContentPane().setBackground(ICalcUI.DEFAULT_BACKGROUND_DISPLAY);
-
 
                 calcCanvas.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

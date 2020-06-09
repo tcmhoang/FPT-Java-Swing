@@ -1,5 +1,9 @@
 package GUI;
 
+import Controller.Calculator;
+import Entity.Controller.ICalculatorOperator;
+import Entity.View.ICalcBtn;
+import Entity.View.ICalcDisplay;
 import Entity.View.ICalcUI;
 import Entity.View.ICharInterpreter;
 
@@ -18,9 +22,15 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
     private JPanel pnl_topFunc;
     private JPanel pnl_botFunc;
 
-    private StringBuilder message;
+    private String message;
 
     private GridBagConstraints gridLayout;
+
+    private ICalcDisplay display;
+
+    private ICalculatorOperator calc;
+
+    private String operator;
 
 
     public CalculatorClick(Dimension x)
@@ -29,7 +39,8 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
         setPreferredSize(new Dimension(x.width, x.height / 6 * 5));
 
-        message = new StringBuilder();
+        message = "0";
+        calc = new Calculator();
 
         __init__buttons();
 
@@ -100,7 +111,6 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
         gridLayout.weighty = 0.1;
 
 
-
     }
 
 
@@ -151,14 +161,13 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
         {
             gridLayout.gridx = 3;
             gridLayout.gridy = 16 - i; // populate from bottom to top
-            System.out.println(bottomFuncButtons[i].getText());
             pnl_botFunc.add(bottomFuncButtons[i], gridLayout);
         });
 
         //init colors
         //12 start at '=' character
-        IntStream.range(0,12).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_OPERATOR_BUTTON));
-        IntStream.range(12,bottomFuncButtons.length).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_NUMERIC_BUTTON));
+        IntStream.range(0, 12).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_OPERATOR_BUTTON));
+        IntStream.range(12, bottomFuncButtons.length).forEach(i -> bottomFuncButtons[i].setBackground(DEFAULT_BACKGROUND_NUMERIC_BUTTON));
 
         //Add EventListener
         Arrays.stream(topFuncButtons).forEach(e -> e.addActionListener(this));
@@ -167,17 +176,146 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
 
     @Override
-    public String getMessage(String c)
+    public String getMessage()
     {
-        return message.toString();
+        if (display == null) throw new NullPointerException("Do not set value reference to ICalDisplay");
+        return message;
+    }
+
+    @Override
+    public void setDisplay(ICalcDisplay display)
+    {
+        this.display = display;
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if(e.getSource() instanceof CalcButton)
+        if (e.getSource() instanceof ICalcBtn)
         {
-            //TODO: implement this method
+            ICalcBtn btn = (ICalcBtn) e.getSource();
+            if (btn.isOperand())
+                handleNumber(btn.getText());
+            else
+                handleSymbol(btn.getText());
         }
+        display.update(getMessage());
+    }
+
+    private void handleSymbol(String text)
+    {
+        switch (text)
+        {
+            case ".":
+                handleDot();
+                break;
+            case "=":
+                if (operator != null)
+                {
+                    calc.append(message);
+                    mathUp();
+                    resetState();
+                }
+                break;
+            case "Clear":
+                message = "0";
+                resetState();
+                break;
+            default:
+                calc.append(message);
+
+                if (calc.isAdded())
+                {
+                    if (!text.matches("-|[+×÷]"))
+                    {
+                        operator = text;
+                        utilsFunc();
+                        calc.append(message);
+                        break;
+                    }
+                    if (operator != null)
+                    {
+                        if (operator.matches("-|[+×÷]")) mathUp();
+                    }
+                    else message = "";
+
+                    operator = text;
+
+                    break;
+                }
+        }
+    }
+
+    private void resetState()
+    {
+        operator = null;
+        calc.reset();
+    }
+
+
+    private void mathUp()
+    {
+        switch (operator)
+        {
+            case "+":
+                message = calc.add();
+                break;
+            case "-":
+                message = calc.subtract();
+                break;
+            case "×":
+                message = calc.multiply();
+                break;
+            case "÷":
+                message = calc.divide();
+        }
+    }
+
+    private void utilsFunc()
+    {
+        switch (operator)
+        {
+            case "±":
+                message = calc.negate();
+                break;
+            case "1⁄x":
+                message = calc.flip();
+                break;
+            case "MR":
+                message = calc.mem();
+                break;
+            case "MC":
+                calc.clrMem();
+                break;
+            case "M+":
+                calc.memAdd();
+                break;
+            case "M-":
+                calc.memSub();
+                break;
+            case "%":
+                message = calc.percent();
+                break;
+            case "√":
+                message = calc.sqrt();
+
+        }
+        operator = null;
+    }
+
+    private void handleDot()
+    {
+        if (message.indexOf(".") == -1)
+            message = message + ".";
+    }
+
+    private void handleNumber(String text)
+    {
+        if (message.toString().equals("0"))
+            if (!text.equals("0"))
+                message = "";
+            else return;
+
+        message = message + text;
     }
 }
