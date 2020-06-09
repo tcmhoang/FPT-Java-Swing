@@ -18,7 +18,7 @@ public interface ICalculatorOperator
 
     String divide();
 
-    String mem();
+    String readMem();
 
     void clrMem();
 

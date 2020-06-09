@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Calculator implements ICalculatorOperator
 {
     private Stack<BigDecimal> operand;
-    BigDecimal remNum;
+    private BigDecimal remNum;
     private Pattern pattern;
 
     private int size;
@@ -96,7 +96,7 @@ public class Calculator implements ICalculatorOperator
     }
 
     @Override
-    public String mem()
+    public String readMem()
     {
         return String.valueOf(remNum);
     }
@@ -110,14 +110,13 @@ public class Calculator implements ICalculatorOperator
     @Override
     public void memAdd()
     {
-        remNum.add(operand.peek());
+        remNum = remNum.add(operand.peek());
     }
 
     @Override
     public void memSub()
     {
-        System.out.println(String.valueOf(remNum));
-        remNum.subtract(operand.peek());
+        remNum = remNum.subtract(operand.peek());
     }
 
     @Override

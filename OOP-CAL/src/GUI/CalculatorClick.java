@@ -282,7 +282,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                 message = calc.flip();
                 break;
             case "MR":
-                message = calc.mem();
+                message = calc.readMem();
                 break;
             case "MC":
                 calc.clrMem();
