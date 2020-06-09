@@ -7,20 +7,20 @@ import java.util.regex.Pattern;
 
 public class Calculator implements ICalculatorOperator
 {
-    private Stack<String> operable;
+    private Stack<Double> operand;
     private Pattern pattern;
 
 
     public Calculator()
     {
-        operable = new Stack<>();
+        operand = new Stack<>();
         pattern = Pattern.compile("\\d+(\\.\\d+)?");
     }
 
     @Override
     public void reset()
     {
-
+        operand.clear();
     }
 
     @Override
@@ -30,16 +30,15 @@ public class Calculator implements ICalculatorOperator
     }
 
     @Override
-    public void get()
+    public double get()
     {
-
+        return operand.pop();
     }
 
     @Override
     public void append(String data)
     {
-        boolean isNumber = pattern.matcher(data).matches();
-        switch (data)
+        if (pattern.matcher(data).matches()) operand.add(Double.parseDouble(data));
     }
 
     @Override

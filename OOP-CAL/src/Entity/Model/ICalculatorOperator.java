@@ -4,7 +4,7 @@ public interface ICalculatorOperator
 {
     void reset();
     void clear();
-    void get();
+    double get();
     void append(String data);
     void del(String data);
     void sqrt();
