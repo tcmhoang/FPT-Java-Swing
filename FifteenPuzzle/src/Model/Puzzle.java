@@ -22,8 +22,30 @@ public class Puzzle extends JPanel implements IPuzzle
     private boolean isPlayerTurn;
     private IControlPanel controlPanel;
 
+    private static Comparator<String> tileComparator;
+
     public Puzzle(Dimension x)
     {
+        tileComparator = (s, t1) ->
+        {
+            if (s.equals(t1)) return 0;
+            int a, b;
+            a = b = Integer.MAX_VALUE;
+            try
+            {
+                a = Integer.parseInt(s);
+            } catch (NumberFormatException e)
+            {
+            }
+            try
+            {
+                b = Integer.parseInt(t1);
+            } catch (NumberFormatException e)
+            {
+            }
+            return Integer.compare(a, b);
+        };
+        
         dimension = x;
         setSize(500, 500);
 
@@ -139,11 +161,12 @@ public class Puzzle extends JPanel implements IPuzzle
     public void checkTilesOrder()
     {
         if (!(isPlayerTurn || tiles[tiles.length - 1][tiles[0].length - 1].getText().equals("empty"))) return;
-        List<String> tmp;
-        //TODO:Fix sort order by implement own comparator
+        List<String> tmp, blah;
+
+
         if ((tmp = Arrays.stream(tiles).flatMap(Arrays::stream).map(ITile::getText)
                 .collect(Collectors.toList()))
-                .stream().sorted().collect(Collectors.toList()).equals(tmp))
+                .stream().sorted(tileComparator).collect(Collectors.toList()).equals(tmp))
         {
             gameOver = true;
 

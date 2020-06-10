@@ -83,7 +83,6 @@ public class ContronPanel extends JPanel implements IControlPanel
                 updateTime();
 
                 String[] size = String.valueOf(ddl_gameTileSelector.getSelectedItem()).split("\\D+");
-                System.out.println(Arrays.toString(size));
                 puzzlePanel.reset();
                 puzzlePanel.setDimension(new Dimension(Integer.parseInt(size[0]), Integer.parseInt(size[1])));
                 puzzlePanel.createPuzzle();
