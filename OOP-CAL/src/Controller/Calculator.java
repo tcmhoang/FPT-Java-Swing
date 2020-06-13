@@ -21,7 +21,7 @@ public class Calculator implements ICalculatorOperator
     {
         remNum = BigDecimal.ZERO;
         operand = new Stack<>();
-        pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        pattern = Pattern.compile("-?\\d+(\\.\\d+)?"); //Already avoid scientific number
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp = operand.pop();
         if (tmp.equals(0))
             return "0"; //ERROR return 0
-        return String.valueOf(BigDecimal.ONE.divide(tmp,10,RoundingMode.HALF_EVEN));
+        return BigDecimal.ONE.divide(tmp,10,RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return String.valueOf(tmp1.add(tmp2));
+        return tmp1.add(tmp2).stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return String.valueOf(tmp2.subtract(tmp1));
+        return tmp2.subtract(tmp1).stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return String.valueOf(tmp1.multiply(tmp2));
+        return tmp1.multiply(tmp2).stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -91,13 +91,13 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return String.valueOf(tmp2.divide(tmp1,4,RoundingMode.HALF_EVEN));
+        return tmp2.divide(tmp1,4,RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
 
     @Override
     public String readMem()
     {
-        return String.valueOf(remNum);
+        return remNum.stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -122,14 +122,14 @@ public class Calculator implements ICalculatorOperator
     public String percent()
     {
         BigDecimal tmp = operand.pop();
-        return String.valueOf(tmp.divide(BigDecimal.TEN.multiply(BigDecimal.TEN)));
+        return tmp.divide(BigDecimal.TEN.multiply(BigDecimal.TEN)).stripTrailingZeros().toPlainString();
     }
 
     @Override
     public String negate()
     {
         BigDecimal tmp = operand.pop();
-        return String.valueOf(tmp.negate());
+        return tmp.negate().stripTrailingZeros().toPlainString();
     }
 
     @Override
