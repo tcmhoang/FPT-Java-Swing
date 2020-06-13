@@ -15,7 +15,7 @@ public class Game
             e.printStackTrace();
         }
 
-        Canvas tmp = new Canvas(500,500);
-         
+        SwingUtilities.invokeLater(() -> new Canvas(500, 500));
+
     }
 }

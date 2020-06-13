@@ -2,9 +2,9 @@ package Entity;
 
 public interface IBird
 {
-    abstract void flap();
+    void flap();
 
-    abstract double getX();
+    double getX();
 
-    abstract double getY();
+    double getY();
 }

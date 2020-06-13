@@ -4,16 +4,16 @@ import java.awt.*;
 
 public interface ITile extends GameObject
 {
-    static Color DEFAULT_COLOR = Color.PINK;
-    static Color DEFAULT_FORE = Color.DARK_GRAY;
+    Color DEFAULT_COLOR = Color.PINK;
+    Color DEFAULT_FORE = Color.DARK_GRAY;
 
-    abstract void changeState(ITile EmptyCell);
+    void changeState(ITile EmptyCell);
 
-    abstract byte getRow();
+    byte getRow();
 
-    abstract byte getCol();
+    byte getCol();
 
-    abstract void setText(String text);
+    void setText(String text);
 
-    abstract String getText();
+    String getText();
 }

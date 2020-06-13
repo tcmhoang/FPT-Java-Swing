@@ -11,10 +11,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Pipe extends GameObject implements IPipe
 {
     private double x;
-    private short top;
-    private short bottom;
-    private byte w;
-    private int velocity;
+    private final short top;
+    private final short bottom;
+    private final byte w;
+    private final int velocity;
     private boolean isPassed;
 
     public Pipe()

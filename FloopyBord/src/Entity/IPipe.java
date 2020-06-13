@@ -2,9 +2,9 @@ package Entity;
 
 public interface IPipe
 {
-    abstract boolean isOffScreen();
+    boolean isOffScreen();
 
-    abstract boolean hits(IBird bird);
+    boolean hits(IBird bird);
 
-    abstract boolean pass(IBird bird);
+    boolean pass(IBird bird);
 }

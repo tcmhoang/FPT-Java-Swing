@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter
 {
-    private IBird bird;
+    private final IBird bird;
 
     public Controller(IBird bird)
     {

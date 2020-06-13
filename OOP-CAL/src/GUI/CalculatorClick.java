@@ -28,7 +28,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
     private ICalcDisplay display;
 
-    private ICalculatorOperator calc;
+    private final ICalculatorOperator calc;
 
     private String operator;
 

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class Puzzle extends JPanel implements IPuzzle
 {
-    private ITile[][] tiles;
+    private ITile[][] tiles = new ITile[0][];
     private ITile emptySlot;
     private Dimension dimension;
     private int moveCounter;

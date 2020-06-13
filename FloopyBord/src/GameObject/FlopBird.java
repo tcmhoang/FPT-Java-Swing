@@ -8,16 +8,16 @@ import java.awt.geom.Ellipse2D;
 
 public class FlopBird extends GameObject implements IBird
 {
-    private double x;
+    private final double x;
     private double y;
     private double velocity;
-    private double gravity;
-    private double upForce;
+    private final double gravity;
+    private final double upForce;
     protected static final int DIAMETER = 20;
 
     public FlopBird()
     {
-        super.isInit();
+        isInit();
         x = 25;
         y = HEIGHT / 2;
         velocity = 0;

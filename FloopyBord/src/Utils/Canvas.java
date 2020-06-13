@@ -112,7 +112,7 @@ public class Canvas extends JPanel implements ActionListener
 
         Object[] options = {"Yes, please",
                 "No, thanks. I am birded enough"};
-
+        //Know bugs: In linux (18.04 ubuntu) it does not show Text in jOption
         int n = JOptionPane.showOptionDialog(this,
                 "Your Final Score is " + score,
                 "A Silly Question",

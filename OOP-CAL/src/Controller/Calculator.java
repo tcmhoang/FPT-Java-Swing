@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 
 public class Calculator implements ICalculatorOperator
 {
-    private Stack<BigDecimal> operand;
+    private final Stack<BigDecimal> operand;
     private BigDecimal remNum;
-    private Pattern pattern;
+    private final Pattern pattern;
 
     private int size;
     private int oldSize;
@@ -44,10 +44,8 @@ public class Calculator implements ICalculatorOperator
     {
         BigDecimal tmp = operand.pop();
 
-        if (tmp.compareTo(new BigDecimal("0")) == -1)
-        {
+        if (tmp.compareTo(BigDecimal.ZERO) == -1)
             return "0"; //ERROR return 0
-        }
         return String.valueOf(Math.sqrt(tmp.doubleValue()));
     }
 
@@ -93,7 +91,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return String.valueOf(tmp2.divide(tmp1,10,RoundingMode.HALF_EVEN));
+        return String.valueOf(tmp2.divide(tmp1,4,RoundingMode.HALF_EVEN));
     }
 
     @Override

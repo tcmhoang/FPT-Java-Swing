@@ -5,15 +5,15 @@ import java.awt.event.ActionListener;
 
 public interface IPuzzle extends ActionListener, GameObject
 {
-    abstract void setDimension(Dimension x);
+    void setDimension(Dimension x);
 
-    abstract void createPuzzle();
+    void createPuzzle();
 
-    abstract void checkTilesOrder();
+    void checkTilesOrder();
 
-    abstract void reset();
+    void reset();
 
-    abstract void setControlPanel(IControlPanel panel);
+    void setControlPanel(IControlPanel panel);
 
-    abstract int getMoveCounter();
+    int getMoveCounter();
 }

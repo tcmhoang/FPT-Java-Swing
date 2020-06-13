@@ -22,7 +22,7 @@ public class ContronPanel extends JPanel implements IControlPanel
     private JComboBox ddl_gameTileSelector;
     private Timer stopWatch;
 
-    private IPuzzle puzzlePanel;
+    private final IPuzzle puzzlePanel;
 
     private int sec;
     private boolean isClickedFirstTime;
