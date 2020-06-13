@@ -193,6 +193,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
     {
         if (e.getSource() instanceof ICalcBtn)
         {
+            if(message.equals("ERROR")) message = "0";
             ICalcBtn btn = (ICalcBtn) e.getSource();
             if (btn.isOperand())
                 handleNumber(btn.getText());
@@ -230,7 +231,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                     utilsFunc();
                     break;
                 }
-                
+
                 if (operator != null)
                     if (operator.matches("-|[+×÷]"))
                     {

@@ -32,7 +32,6 @@ public class Calculator implements ICalculatorOperator
     {
         if (pattern.matcher(data).matches())
             operand.add(new BigDecimal(data));
-        System.out.println(operand.size());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp = operand.pop();
 
         if (tmp.compareTo(BigDecimal.ZERO) == -1)
-            return "0"; //ERROR return 0
+            return "ERROR";
         return String.valueOf(Math.sqrt(tmp.doubleValue()));
     }
 
@@ -50,7 +49,7 @@ public class Calculator implements ICalculatorOperator
     {
         BigDecimal tmp = operand.pop();
         if (tmp.equals(0))
-            return "0"; //ERROR return 0
+            return "ERROR";
         return BigDecimal.ONE.divide(tmp, 10, RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
 
@@ -86,7 +85,7 @@ public class Calculator implements ICalculatorOperator
     {
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
-
+        if (tmp1.equals(BigDecimal.ZERO)) return "ERROR";
         return tmp2.divide(tmp1, 4, RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
 
