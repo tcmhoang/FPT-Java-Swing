@@ -305,7 +305,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
     private void handleDot()
     {
-        if (message.indexOf(".") == -1)
+        if (message.indexOf(".") == -1 && message.length() > 0)
             message = message + ".";
     }
 
