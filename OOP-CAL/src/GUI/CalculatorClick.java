@@ -200,6 +200,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                 handleSymbol(btn.getText());
         }
         display.update(getMessage());
+        System.out.println(((Calculator) calc).getSize());
     }
 
     private void handleSymbol(String text)
@@ -239,10 +240,9 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                     }
                     else message = "";
 
-                    operator = text;
-
-                    break;
                 }
+                operator = text;
+                break;
         }
     }
 

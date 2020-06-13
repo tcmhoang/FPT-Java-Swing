@@ -20,7 +20,10 @@ public class Calculator implements ICalculatorOperator
     public Calculator()
     {
         remNum = BigDecimal.ZERO;
+
         operand = new Stack<>();
+        operand.add(BigDecimal.ZERO);
+
         pattern = Pattern.compile("-?\\d+(\\.\\d+)?"); //Already avoid scientific number
     }
 
@@ -109,13 +112,13 @@ public class Calculator implements ICalculatorOperator
     @Override
     public void memAdd()
     {
-        remNum = remNum.add(operand.peek());
+        remNum = remNum.add(operand.pop());
     }
 
     @Override
     public void memSub()
     {
-        remNum = remNum.subtract(operand.peek());
+        remNum = remNum.subtract(operand.pop());
     }
 
     @Override
@@ -138,5 +141,6 @@ public class Calculator implements ICalculatorOperator
         return oldSize != size;
     }
 
+    public int getSize(){return operand.size();}
 
 }
