@@ -200,7 +200,6 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                 handleSymbol(btn.getText());
         }
         display.update(getMessage());
-        System.out.println(((Calculator) calc).getSize());
     }
 
     private void handleSymbol(String text)
@@ -225,22 +224,22 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
             default:
                 calc.append(message);
 
-                if (calc.isAdded())
+                if (!text.matches("-|[+×÷]"))
                 {
-                    if (!text.matches("-|[+×÷]"))
-                    {
-                        operator = text;
-                        utilsFunc();
-                        calc.append(message);
-                        break;
-                    }
-                    if (operator != null)
-                    {
-                        if (operator.matches("-|[+×÷]")) mathUp();
-                    }
-                    else message = "";
-
+                    operator = text;
+                    utilsFunc();
+                    break;
                 }
+                
+                if (operator != null)
+                    if (operator.matches("-|[+×÷]"))
+                    {
+                        mathUp();
+                        calc.append(message);
+                    }
+
+                message = "";
+
                 operator = text;
                 break;
         }
@@ -269,6 +268,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
             case "÷":
                 message = calc.divide();
         }
+        operator = null;
     }
 
     private void utilsFunc()

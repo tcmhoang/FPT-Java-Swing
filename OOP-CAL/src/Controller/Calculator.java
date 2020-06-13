@@ -13,17 +13,11 @@ public class Calculator implements ICalculatorOperator
     private BigDecimal remNum;
     private final Pattern pattern;
 
-    private int size;
-    private int oldSize;
-
 
     public Calculator()
     {
         remNum = BigDecimal.ZERO;
-
         operand = new Stack<>();
-        operand.add(BigDecimal.ZERO);
-
         pattern = Pattern.compile("-?\\d+(\\.\\d+)?"); //Already avoid scientific number
     }
 
@@ -36,10 +30,9 @@ public class Calculator implements ICalculatorOperator
     @Override
     public void append(String data)
     {
-        oldSize = size;
         if (pattern.matcher(data).matches())
             operand.add(new BigDecimal(data));
-        size = operand.size();
+        System.out.println(operand.size());
     }
 
     @Override
@@ -58,7 +51,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp = operand.pop();
         if (tmp.equals(0))
             return "0"; //ERROR return 0
-        return BigDecimal.ONE.divide(tmp,10,RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
+        return BigDecimal.ONE.divide(tmp, 10, RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -94,7 +87,7 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp1 = operand.pop();
         BigDecimal tmp2 = operand.pop();
 
-        return tmp2.divide(tmp1,4,RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
+        return tmp2.divide(tmp1, 4, RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
 
     @Override
@@ -119,6 +112,7 @@ public class Calculator implements ICalculatorOperator
     public void memSub()
     {
         remNum = remNum.subtract(operand.pop());
+        System.out.println("blah " + operand.size());
     }
 
     @Override
@@ -134,13 +128,5 @@ public class Calculator implements ICalculatorOperator
         BigDecimal tmp = operand.pop();
         return tmp.negate().stripTrailingZeros().toPlainString();
     }
-
-    @Override
-    public boolean isAdded()
-    {
-        return oldSize != size;
-    }
-
-    public int getSize(){return operand.size();}
-
 }
+

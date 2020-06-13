@@ -30,6 +30,4 @@ public interface ICalculatorOperator
 
     String negate();
 
-    boolean isAdded();
-
 }
