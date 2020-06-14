@@ -111,7 +111,6 @@ public class Calculator implements ICalculatorOperator
     public void memSub()
     {
         remNum = remNum.subtract(operand.pop());
-        System.out.println("blah " + operand.size());
     }
 
     @Override
