@@ -225,7 +225,8 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
             default:
                 calc.append(message);
 
-                if (!text.matches("-|[+×÷]"))
+                //if len(message) == 0 -> User input an operator after another operator -> Update operator
+                if (!text.matches("-|[+×÷]") && message.length() > 0)
                 {
                     operator = text;
                     utilsFunc();
@@ -233,7 +234,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
                 }
 
                 if (operator != null)
-                    if (operator.matches("-|[+×÷]"))
+                    if (operator.matches("-|[+×÷]") && message.length() > 0)
                     {
                         mathUp();
                         calc.append(message);
@@ -306,7 +307,7 @@ public class CalculatorClick extends JPanel implements ICharInterpreter, ICalcUI
 
     private void handleDot()
     {
-        if (message.indexOf(".") == -1 && message.length() > 0)
+        if (!message.contains(".") && message.length() > 0)
             message = message + ".";
     }
 

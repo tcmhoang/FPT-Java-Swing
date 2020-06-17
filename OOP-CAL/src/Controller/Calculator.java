@@ -3,6 +3,7 @@ package Controller;
 import Entity.Controller.ICalculatorOperator;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.regex.Pattern;
@@ -41,7 +42,7 @@ public class Calculator implements ICalculatorOperator
 
         if (tmp.compareTo(BigDecimal.ZERO) == -1)
             return "ERROR";
-        return String.valueOf(Math.sqrt(tmp.doubleValue()));
+        return tmp.sqrt(new MathContext(10)).stripTrailingZeros().toPlainString();
     }
 
     @Override
