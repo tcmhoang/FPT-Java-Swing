@@ -8,7 +8,7 @@ A Collection of projects I built in Java Desktop LAB Using OOP and MVC design pa
   <img src="./screenshots/15.png" />
 </p>
 
-## [FloopyBord]((https://github.com/ctmhoang/FPT-Java-Swing/tree/master/FloopyBord)) (A simple Flappy Bird Game)
+## [FloopyBord](https://github.com/ctmhoang/FPT-Java-Swing/tree/master/FloopyBord) (A simple Flappy Bird Game)
 A game that you control the ball inorder not to hit the Pipes :joy:
 
 <p align="center">
