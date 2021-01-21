@@ -40,7 +40,7 @@ public class Calculator implements ICalculatorOperator
     {
         BigDecimal tmp = operand.pop();
 
-        if (tmp.compareTo(BigDecimal.ZERO) == -1)
+        if (tmp.compareTo(BigDecimal.ZERO) < 0)
             return "ERROR";
         return tmp.sqrt(new MathContext(10)).stripTrailingZeros().toPlainString();
     }
@@ -49,7 +49,7 @@ public class Calculator implements ICalculatorOperator
     public String flip()
     {
         BigDecimal tmp = operand.pop();
-        if (tmp.equals(0))
+        if (tmp.equals(BigDecimal.ZERO))
             return "ERROR";
         return BigDecimal.ONE.divide(tmp, 10, RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString();
     }
@@ -118,7 +118,7 @@ public class Calculator implements ICalculatorOperator
     public String percent()
     {
         BigDecimal tmp = operand.pop();
-        return tmp.divide(BigDecimal.TEN.multiply(BigDecimal.TEN)).stripTrailingZeros().toPlainString();
+        return tmp.divide(BigDecimal.TEN.multiply(BigDecimal.TEN),MathContext.DECIMAL64).stripTrailingZeros().toPlainString();
     }
 
     @Override

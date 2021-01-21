@@ -12,31 +12,26 @@ public class Main
 {
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                JFrame calcCanvas = new JFrame("Calculator");
-                calcCanvas.setLayout(new BorderLayout());
-                calcCanvas.setSize(500,750);
+        SwingUtilities.invokeLater(() -> {
+            JFrame calcCanvas = new JFrame("Calculator");
+            calcCanvas.setLayout(new BorderLayout());
+            calcCanvas.setSize(500,750);
 
-                ICalcDisplay tmp;
-                ICharInterpreter btnPanel;
-                calcCanvas.add((Component) (tmp = new CalculatorDisplay(calcCanvas.getSize())),BorderLayout.NORTH);
-                calcCanvas.add((Component) (btnPanel = new CalculatorClick(calcCanvas.getSize())),BorderLayout.CENTER);
-                btnPanel.setDisplay(tmp);
+            ICalcDisplay tmp;
+            ICharInterpreter btnPanel;
+            calcCanvas.add((Component) (tmp = new CalculatorDisplay(calcCanvas.getSize())),BorderLayout.NORTH);
+            calcCanvas.add((Component) (btnPanel = new CalculatorClick(calcCanvas.getSize())),BorderLayout.CENTER);
+            btnPanel.setDisplay(tmp);
 
-                calcCanvas.getContentPane().setBackground(ICalcUI.DEFAULT_BACKGROUND_DISPLAY);
+            calcCanvas.getContentPane().setBackground(ICalcUI.DEFAULT_BACKGROUND_DISPLAY);
 
-                calcCanvas.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            calcCanvas.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-                //Must to set undecorated before making it opaque
-                calcCanvas.pack();
-                calcCanvas.setLocationRelativeTo(null);
+            //Must to set undecorated before making it opaque
+            calcCanvas.pack();
+            calcCanvas.setLocationRelativeTo(null);
 
-                calcCanvas.setVisible(true);
-            }
+            calcCanvas.setVisible(true);
         });
     }
 }
