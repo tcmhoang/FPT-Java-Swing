@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<students>
+    <student id="1">
+        <name>Tuan Hoang</name>
+        <gender>Male</gender>
+        <age>22</age>
+        <major>Computer Science</major>
+        <grade>A+</grade>
+    </student>
+    <student id="100026">
+        <name>Joe Average</name>
+        <gender>Male</gender>
+        <age>21</age>
+        <major>Biology</major>
+        <grade>A</grade>
+    </student>
+    <student id="100074">
+        <name>Maria Sharapova</name>
+        <gender>Female</gender>
+        <age>19</age>
+        <major>Tennis</major>
+        <grade>A+</grade>
+    </student>
+    <student id="100078">
+        <name>Jack Doe</name>
+        <gender>Male</gender>
+        <age>18</age>
+        <major>Physics</major>
+        <grade>B</grade>
+    </student>
+</students>
