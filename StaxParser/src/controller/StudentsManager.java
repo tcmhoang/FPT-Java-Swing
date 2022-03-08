@@ -23,7 +23,9 @@ public class StudentsManager {
     }
 
     public boolean add(Student student) {
-        return !findStudentById(student.getId()).isPresent() && students.add(student);
+        if (findStudentById(student.getId()).isPresent()) return false;
+        students.add(student);
+        return true;
     }
 
     public boolean remove(Student student) {

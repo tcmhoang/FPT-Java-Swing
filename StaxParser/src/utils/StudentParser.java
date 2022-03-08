@@ -7,16 +7,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.transform.Result;
 import java.io.BufferedReader;
 import java.io.StringWriter;
-import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 public class StudentParser {
-    private JAXBContext ctx;
+    private final JAXBContext ctx;
 
     public StudentParser() throws JAXBException {
         ctx = JAXBContext.newInstance(Students.class);

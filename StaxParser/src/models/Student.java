@@ -2,8 +2,9 @@ package models;
 
 import enums.EnumStudentXMLIndex;
 
-import javax.xml.bind.annotation.*;
-import java.util.Collections;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Vector;
 
 @XmlRootElement(name = "student")

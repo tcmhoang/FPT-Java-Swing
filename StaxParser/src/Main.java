@@ -21,7 +21,7 @@ public class Main {
             searchCanvas.setFocusTraversalKeysEnabled(false);
             searchCanvas.setResizable(false);
 
-            searchCanvas.add(new JLabel("IS1412 - tuanhmhe141540"), BorderLayout.NORTH);
+            searchCanvas.add(new JLabel("IS1412_HE141540_HoangMinhTuan"), BorderLayout.NORTH);
 
             searchCanvas.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             searchCanvas.setLocationRelativeTo(null);

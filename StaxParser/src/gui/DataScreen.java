@@ -2,7 +2,6 @@ package gui;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ComponentListener;
 import java.util.Arrays;
 import java.util.Vector;
 import java.util.function.Consumer;

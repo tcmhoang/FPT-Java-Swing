@@ -104,9 +104,7 @@ public class FormScreen extends JPanel {
             if (!onCreate.test(getInputStudent())) showDialog();
 
         });
-        btns.get(EnumFormBtn.CLEAR.ordinal()).addActionListener(e -> {
-            setDefaultMode();
-        });
+        btns.get(EnumFormBtn.CLEAR.ordinal()).addActionListener(e -> setDefaultMode());
         btns.get(EnumFormBtn.EXIT.ordinal()).addActionListener(e -> {
             JComponent comp = (JComponent) e.getSource();
             Window win = SwingUtilities.getWindowAncestor(comp);
